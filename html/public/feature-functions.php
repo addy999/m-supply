@@ -41,7 +41,7 @@
 		return $outgoing;
 	}
 	
-	// Function to handle yes/no.
+	// Function to handle yes/no messages as notification requests.
 	function notify_request($command) {
 		$phone = $_POST["From"];
 		$requests = make_get_call("request_ID");
