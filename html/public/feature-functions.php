@@ -24,12 +24,12 @@
 		$update_parameters = substr($update_parameters, 7);
 		$message = substr($update_parameters, strpos($update_parameters, "-") + 2);
 		$update_parameters = substr($update_parameters, 0, strpos($update_parameters, "-") - 1);
-		$has = substr($update_parameters, strrpos($update_parameters, " "));
+		$has = substr($update_parameters, strrpos($update_parameters, " ") + 1);
 		$item_name = substr($update_parameters, 0, strrpos($update_parameters, " "));
 		
 		$item_id = get_item_id($item_name);
-		if($has == "yes") $has = TRUE;
-		else $has = FALSE;
+		if($has == "no") $has = FALSE;
+		else $has = TRUE;
 		
 		$values = ["has" => $has, "message" => $message];
 		$response = make_put_call("vendor_ID/" . $vendor_id . "/items/" . $item_id, $values);
