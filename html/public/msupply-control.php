@@ -9,15 +9,26 @@
     $incoming = strtolower($_POST["Body"]);
     $outgoing;
     
-    $command = substr($incoming, 0, strpos($incoming, " "));
-    $parameters = substr($incoming, strpos($incoming, " ") + 1);
+    $command = "";
+    $parameters = "";
+    
+    if (gettype(strpos($incoming, " ")) != "boolean") {
+        $command = substr($incoming, 0, strpos($incoming, " "));
+        $parameters = substr($incoming, strpos($incoming, " ") + 1);
+    } else {
+        $command = $incoming;
+        $parameters = "";
+    }
     
     switch($command) {
         case $commands[0]:
             $outgoing = stock($parameters);
             break;
-        case $commands[1];
+        case $commands[1]:
             $outgoing = update($parameters);
+            break;
+        default:
+            $outgoing = notify_request($command);
             break;
     }
     
@@ -25,5 +36,5 @@
     echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 ?>
 <Response>
-    <Message><?php echo $outgoing ?></Message>
+    <Message><?php echo var_dump($outgoing) ?></Message>
 </Response>

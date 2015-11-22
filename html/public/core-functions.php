@@ -1,6 +1,6 @@
 <?php
 	// Make standardized database GET call
-    function make_get_call($mid_url, $type, $params) {
+    function make_get_call($mid_url) {
         global $base_url, $end_url;
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, $base_url . $mid_url . $end_url);
@@ -28,6 +28,21 @@
         return $output;
     }
     
+    // Make standardized database POST call
+    function make_post_call($mid_url, $post_values) {
+        global $base_url, $end_url;
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $base_url . $mid_url . $end_url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER,true);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($curl, CURLOPT_POSTFIELDS, json_encode($post_values));
+        
+        $output = curl_exec($curl);
+        curl_close($curl);
+        
+        return $output;
+    }
+    
     // Return item index of $item_name if exists. Otherwise return FALSE.
     function get_item_id($item_name) {
         $item_list = make_get_call("items");
@@ -38,4 +53,11 @@
         
         return $item_list;
     }
+    
+    // Record request in database.
+    function record_request($vendor_id, $item_id, $phone, $notify) {
+        $new = make_post_call("request_ID", ["vendor_id" => $vendor_id, "item_id" => $item_id, "phone" => $phone, "notify" => $notify]);
+        return $new;
+    }
+    
 ?>

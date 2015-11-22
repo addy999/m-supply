@@ -11,8 +11,10 @@
 		
 		if ($vendor_item->{"has"}) {
 			$outgoing .= "Yes, " . $vendor_id . " has " . $item_name . " in stock.";
+			$record = record_request($vendor_id, $item_id, $_POST["From"], "no");
 		} else {
-			$outgoing .= "No, " . $vendor_id . " does not have " . $item_name . " in stock.";
+			$outgoing .= "No, " . $vendor_id . " does not have " . $item_name . " in stock. Would you like to be notified when this vendor has " . $item_name . " in stock? Text 'yes' or 'no'.";
+			$record = record_request($vendor_id, $item_id, $_POST["From"], "wait");
 		}
 		
 		return $outgoing;
@@ -35,6 +37,31 @@
 		$response = make_put_call("vendor_ID/" . $vendor_id . "/items/" . $item_id, $values);
 		
 		$outgoing = "Successfully updated stock of " . $item_name . ".";
+		
+		return $outgoing;
+	}
+	
+	// Function to handle yes/no.
+	function notify_request($command) {
+		$phone = $_POST["From"];
+		$requests = make_get_call("request_ID");
+		
+		$outgoing;
+		
+		foreach($requests as $key => $value) {
+			if($value->{"notify"} == "wait" and $value->{"phone"} == $phone) {
+				
+				if($command == "yes") {
+					$response = make_put_call("request_ID/" . $key . "/notify", TRUE);
+					$outgoing = "You will be notified when this item is in stock.";
+				} else {
+					$response = make_put_call("request_ID/" . $key . "/notify", FALSE);
+					$outgoing = "You will not receive any notifications about this item.";
+				}
+				
+				break;
+			}
+		}
 		
 		return $outgoing;
 	}
