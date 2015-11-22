@@ -1,5 +1,4 @@
 <?php
-
 	// Function to call to perform stock query. Returns resultant message to send.
 	function stock($parameters) {
 		$vendor_id = substr($parameters, 0, 6);
@@ -17,5 +16,10 @@
 		}
 		
 		return $outgoing;
+	}
+	
+	// Function to update vendor item stock. Returns resultant message to respond with.
+	function update($parameters) {
+		
 	}
 ?>
