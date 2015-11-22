@@ -9,8 +9,8 @@
     $incoming = strtolower($_POST["Body"]);
     $outgoing;
     
-    $command = substr($incoming, 0, strpos(" "));
-    $parameters = substr($incoming, strpos(" ") + 1);
+    $command = substr($incoming, 0, strpos($incoming, " "));
+    $parameters = substr($incoming, strpos($incoming, " ") + 1);
     
     switch($command) {
         case $commands[0]:
