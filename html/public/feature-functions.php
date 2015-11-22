@@ -39,10 +39,10 @@
 		$outgoing = "Successfully updated stock of " . $item_name . ".";
 		
 		// send notification
-		if($has == TRUE) {
-			delay(1000);
+		/*if($has == TRUE) {
 			$notify = send_notifications($vendor_id, $item_id);
-		}
+			delay(1000);
+		}*/
 		
 		return $outgoing;
 	}
