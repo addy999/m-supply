@@ -38,6 +38,12 @@
 		
 		$outgoing = "Successfully updated stock of " . $item_name . ".";
 		
+		// send notification
+		if($has == TRUE) {
+			delay(1000);
+			$notify = send_notifications($vendor_id, $item_id);
+		}
+		
 		return $outgoing;
 	}
 	
@@ -60,6 +66,31 @@
 				}
 				
 				break;
+			}
+		}
+		
+		return $outgoing;
+	}
+	
+	// Send notifications to people who have requested and update database.
+	function send_notifications($vendor_id, $item_id) {
+		$requests = make_get_call("request_ID");
+		
+		$outgoing;
+		
+		foreach($requests as $key => $value) {
+			if($value->{"notify"} == TRUE and $value->{"vendor_id"} == $vendor_id and $value->{"item_id"} == $item_id) {
+				
+				/*$client->account->messages->create(array( 
+					'To' => $value->{"phone"}, 
+					'From' => $account_phone, 
+					'Body' => "Hey there! " . $vendor_id . " has " . $item_id . " in stock now!",
+				));*/
+				
+				//update notify sent
+				
+				$outgoing = "hey";
+				
 			}
 		}
 		

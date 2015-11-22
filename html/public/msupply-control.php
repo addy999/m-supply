@@ -1,6 +1,12 @@
 <?php
     require_once("core-functions.php");
     require_once("feature-functions.php");
+    require_once("twilio/Services/Twilio.php");
+    
+    $account_sid = 'ACbc8c562cb1021b017d9084070c5996c3'; 
+    $auth_token = '88cb261f40a7aad55836c284a7db820a'; 
+    $account_phone = "+14387950306";
+    $client = new Services_Twilio($account_sid, $auth_token); 
     
     $base_url = 'https://m-supply.firebaseio.com/';
     $end_url = ".json";
@@ -36,5 +42,5 @@
     echo "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n";
 ?>
 <Response>
-    <Message><?php echo var_dump($outgoing) ?></Message>
+    <Message><?php echo $outgoing ?></Message>
 </Response>
