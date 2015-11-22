@@ -4,7 +4,11 @@
     $base_url = 'https://m-supply.firebaseio.com/';
     $end_url = ".json";
     
+    $command_list = ["stock", "update"]
+    
     $incoming = strtolower($_POST["Body"]);
+    $command = substr($incoming, 0, strpos(" "));
+    $parameters = substr($incoming, strpos(" ") + 1);
     
     $vendor_id = substr($incoming, 0, 6);
     $item_name = substr($incoming, 7);
